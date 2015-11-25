@@ -33,3 +33,10 @@ pip install pydub
 
 ## Mel Frequency Cepstral Coefficients (MFCC)
 TBD
+
+<!-- LINKS -->
+  
+[pydub-library]:
+https://github.com/jiaaro/pydub
+[ffmpeg-ppa]:
+https://launchpad.net/~mc3man/+archive/ubuntu/trusty-media
