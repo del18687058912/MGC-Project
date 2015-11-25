@@ -3,6 +3,12 @@
 ## Track_cut script 
 This script lets you to cut part from soundtrack in .mp3 format.
 
+To use this script move to the folder with script and type in terminal:
+```
+python track_cut.py song_path segment_from serment_to
+```
+Arguments __segment_from__ and __segment_to__ uses to determine time interval in seconds to cut.
+
 ## Convert audio file from .au to .wav format
 In our project we use [GTZAN Genre Collection][GTZAN].
 There are 10 genres represented, each containing 100 tracks. All the
@@ -13,16 +19,6 @@ To convert all .au files in current folder to .wav format Linux users can execut
 ```
 for i in $(ls *au); do ffmpeg -i $i ${i%.*}.wav; rm -f $i; done;
 ```
-
-## Examples
-
-### Track_cut script
-Move to folder with script and type in terminal:
-```
-python track_cut.py song_path segment_from serment_to
-```
-Arguments __segment_from__ and __segment_to__ uses to determine time interval in seconds to cut.
-
 
 <!-- LINKS -->
 
