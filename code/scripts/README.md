@@ -1,7 +1,7 @@
 # Scripts
 
 ## Track_cut script 
-This script lets you to cut part from soundtrack in .mp3 format.
+This script let you to cut part from soundtrack in .mp3 format.
 
 To use this script move to the folder with script and type in terminal:
 ```
