@@ -37,7 +37,9 @@ TBD
 ## k-Nearest Neighbors algorithm (k-NN)
 k-NN is a non-parametric method used for classification. Input consists of the l closest training examples in the feature space. An object is classified by a majority vote of its neghbots, with the object begin assigned to the class most common among its k nearest neighbors. It can be useful to assign weight to the contributions of the neighbors, so that the nearer neighbors contribute more to the average than the more distant ones. More infomation about this algorithm can be found on [Wikipedia][knn-algorithm-wiki].
 
-To figure out the distance between two songs we use Kullback-Leibler divergence. So we have two multivatiate Gaussian distribution with mean and covariance derived from the MFCC matrix for each song. To compute the distance we use the following formula: ![KL-divergence-for-multivariate-Normal-distribution][KL-divergence-for-multivariate-Normal-distribution-image]
+To figure out the distance between two songs we use Kullback-Leibler divergence. So we have two multivatiate Gaussian distribution with mean and covariance derived from the MFCC matrix for each song. To compute the distance we use the following formula: 
+
+![KL-divergence-for-multivariate-Normal-distribution][KL-divergence-for-multivariate-Normal-distribution-image]
 
 where ![mu][mu-image] are means, ![covariance-matricies][covariance-matricies-image] are covariance matricies. 
 
