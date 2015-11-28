@@ -4,31 +4,41 @@
 TBD
 
 ## Installing the dependencies
-First you need to install __libav__ or __ffmpeg__.
-Full information about installing __ffmpeg__ can be found [here][ffmpeg-ppa].
+We provide detailed instructions only for Linux users, but Windows users can also easilly install all of that dependencies.
 
-For Linux users:
+### FFmpeg
+[FFmpeg][ffmpeg-official] is used to decode audio files and to convert samples to .wav format. To install __FFmpeg__ type in command line the following:
+
 ```
-#libav
-sudo apt-get install libav-tools
-
-#ffmpeg
 sudo add-apt-repository ppa:mc3man/trusty-media
 sudo apt-get update
 sudo apt-get dist-upgrade
 sudo apt-get install ffmpeg
 ```
-Then you need to install __pip__.
+Full information about installing __FFmpeg__ can be found on it's [ppa][ffmpeg-ppa] page.
 
-For Linux users:
+### Pip
+[Pip][pip_wiki] is a package management system used to install and manage software packages written in Python. You can install it as shown below:
+
 ```
 sudo apt-get -y install python-pip
 ```
-After that install [pydub library][pydub-library].
+### Pydub library
+The [pydub library][pydub-library] is a usefull module for working with audio files. We use it to get 30 seconds sample from each song that could be considered as training or testing data. To install this use terminal:
 
-For Linux users:
 ```
 pip install pydub
+```
+
+### Python speech features
+[Python speech features][python-speech-features-git] is a library that provides common speech features for ASR including MFCCs and filterbank energies. We use this library to calculate Mel Frequency Cepstral Coefficients for each song. To install it you should download zip from git page and unpack it or or clone git repository (if you have git intalled):
+```
+git clone https://github.com/jameslyons/python_speech_features.git
+```
+Then you should setup environment to use the library in your project:
+```
+cd ./python_speech_features
+sudo python setup.py install
 ```
 
 ## Mel Frequency Cepstral Coefficients (MFCC)
@@ -50,10 +60,16 @@ More information about Kullback-Leibler divergence can be found on [Wikipedia][K
 
 <!-- LINKS -->
   
+[ffmpeg-official]:
+https://www.ffmpeg.org/
+[pip_wiki]:
+https://en.wikipedia.org/wiki/Pip_(package_manager)
 [pydub-library]:
 https://github.com/jiaaro/pydub
 [ffmpeg-ppa]:
 https://launchpad.net/~mc3man/+archive/ubuntu/trusty-media
+[python-speech-features-git]:
+https://github.com/jameslyons/python_speech_features
 [knn-algorithm-wiki]:
 https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm
 [KL-divergence-wiki]:
