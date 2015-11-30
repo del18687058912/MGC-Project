@@ -1,8 +1,7 @@
 import numpy as np
 import math
-import track_features
 
-def calculate_KL_divergence_unsym(features_1, features_2):
+def _calculate_KL_divergence_unsym(features_1, features_2):
 
 	mean_1 = features_1[0]
 	mean_2 = features_2[0]
@@ -23,4 +22,4 @@ def calculate_KL_divergence_unsym(features_1, features_2):
 	return KL_divergence;
 
 def calculate_KL_divergence(features_1,features_2):
-	return calculate_KL_divergence_unsym(features_1,features_2) + calculate_KL_divergence_unsym(features_2,features_1)
+	return _calculate_KL_divergence_unsym(features_1,features_2) + _calculate_KL_divergence_unsym(features_2,features_1)
