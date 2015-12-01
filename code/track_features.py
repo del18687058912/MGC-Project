@@ -1,3 +1,4 @@
+import os
 from features import mfcc
 from features import logfbank
 import scipy.io.wavfile as wav
@@ -59,6 +60,7 @@ def get_features(dir_path, *genre_names):
             track_list[index] = genre_dir_path + track_list[index]
 
         for track in track_list:
+            print "Reading ", track
             (mean, cov_mat) = get_track_features(track)
             features.append((mean, cov_mat, genre_name))
 
@@ -67,7 +69,10 @@ def get_features(dir_path, *genre_names):
 def get_genre_ID(genre_name):
     track_ID = ""
     for ch in genre_name:
-        track_ID += str(ord(ch))
+        char_ID = str(ord(ch))
+        if int(char_ID) < 100:
+            char_ID = "0"+char_ID
+        track_ID += char_ID
 
     return int(track_ID)
 
@@ -76,7 +81,7 @@ def get_genre_name(genre_ID):
     genre_name = ""
     i = 0
     while (i < len(genre_ID_list)):
-        genre_name_ch = genre_ID_list[i] + genre_ID_list[i + 1] + genre_ID_list[i + 2] 
+        genre_name_ch = genre_ID_list[i] + genre_ID_list[i + 1] + genre_ID_list[i + 2]
         genre_name += chr(int(genre_name_ch))
         i += 3
         

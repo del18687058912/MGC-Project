@@ -1,45 +1,43 @@
 import numpy as np
 from kl_divergence import calculate_KL_divergence
+import track_features as tf
 from sklearn import neighbors
 
 def knn_classification():
-	a = [0,1,3]
-	b = [[10,0,0],[0,1,0],[0,0,1]]
-	b1 = [[10,1,0],[0,1,0],[0,0,1]]
-	c = [7,8,9]
-	d = [[10,2,4],[4,8,6],[12,.8,16]]
-	e = [0,1,3]
-	g = [[50,5,5],[15,.1,5],[7,.5,.13]]
+	print "Read training data"
+	training_set_features_array = []
+	training_set_classes = []
+	training_set_features = tf.get_features("../../music/training", "rock" , "pop", "class", "jazz")
 
-	f1 = (a, b)
-	f2 = (c, d)
-	f3 = (a, d)
-	f4 = (c, b)
-	f5 = (e, b)
-	f6 = (e, g)
+	# convert each cortege to array
+	for track_features in training_set_features:
+		features_array = np.concatenate([track_features[0], np.array(track_features[1]).ravel()])
+		training_set_features_array[len(training_set_features_array):] = [features_array]
+		training_set_classes[len(training_set_classes):] = [tf.get_genre_ID(str(track_features[2]))]
+	
+	# get features count
+	n_features = len(training_set_features[0][0])
 
-	a1 = np.concatenate([a,np.array(b).ravel()])
-	a2 = np.concatenate([c,np.array(d).ravel()])
-	a3 = np.concatenate([a,np.array(d).ravel()])
-	a4 = np.concatenate([c,np.array(g).ravel()])
-	a5 = np.concatenate([e,np.array(b1).ravel()])
-	a6 = np.concatenate([e,np.array(b1).ravel()])
+	print "Read testing data"
+	testing_set_features = tf.get_features("../../music/testing", "jazz")
+	testing_set_features_array = []
+	expected_genres = []
 
-	print(a1, a2, a3, a4, a5)
+	# convert each cortege to array
+	for track_features in testing_set_features:
+		features_array = np.concatenate([track_features[0], np.array(track_features[1]).ravel()])
+		testing_set_features_array[len(testing_set_features_array):] = [features_array]
+		expected_genres[len(expected_genres):] = [tf.get_genre_ID(str(track_features[2]))]
 
-	size = len(a)
-	X = np.array([a1, a2, a3, a4, a5])
-	y = [0, 1, 2, 3, 4]
-	Z = np.array([a6])
+	testing_data = np.array(testing_set_features_array)
 
-	print(X)
-	print(y)
+	knn_classifier = neighbors.KNeighborsClassifier(n_neighbors=4,  weights='distance', 
+										metric=calculate_KL_divergence, metric_params={"n_features": n_features})
+	knn_classifier.fit(training_set_features_array,training_set_classes)
+	result_of_classification = knn_classifier.predict(testing_data)
 
-	nbrs = neighbors.KNeighborsClassifier(n_neighbors=2,  weights='distance', 
-										metric=calculate_KL_divergence, metric_params={"n_features": size})
-	nbrs.fit(X,y)
-	Z1 = nbrs.predict(Z)
-	print(Z1)
+	print "Expected: ", tf.get_genre_name(expected_genres[0])
+	print "Result: ", tf.get_genre_name(result_of_classification[0])
 
 knn_classification()
 
