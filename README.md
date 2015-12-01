@@ -3,6 +3,11 @@
 ## Description
 TBD
 
+## Installing python
+TBD
+```
+sudo apt-get install python-dev python-tk
+```
 ## Installing the dependencies
 We provide detailed instructions only for Linux users, but Windows users can also easilly install all of that dependencies.
 
@@ -18,7 +23,7 @@ sudo apt-get install ffmpeg
 Full information about installing __FFmpeg__ can be found on it's [ppa][ffmpeg-ppa] page.
 
 ### Pip
-[Pip][pip_wiki] is a package management system used to install and manage software packages written in Python. You can install it as shown below:
+[Pip][pip-wiki] is a package management system used to install and manage software packages written in Python. You can install it as shown below:
 
 ```
 sudo apt-get -y install python-pip
@@ -39,6 +44,12 @@ Then you should setup environment to use the library in your project:
 ```
 cd ./python_speech_features
 sudo python setup.py install
+```
+### Scikit-learn
+[Scikit-learn][scikit-learn-official]
+TBD
+```
+pip install -U scikit-learn
 ```
 
 ## Mel Frequency Cepstral Coefficients (MFCC)
@@ -62,7 +73,7 @@ More information about Kullback-Leibler divergence can be found on [Wikipedia][K
   
 [ffmpeg-official]:
 https://www.ffmpeg.org/
-[pip_wiki]:
+[pip-wiki]:
 https://en.wikipedia.org/wiki/Pip_(package_manager)
 [pydub-library]:
 https://github.com/jiaaro/pydub
@@ -70,6 +81,8 @@ https://github.com/jiaaro/pydub
 https://launchpad.net/~mc3man/+archive/ubuntu/trusty-media
 [python-speech-features-git]:
 https://github.com/jameslyons/python_speech_features
+[scikit-learn-official]:
+http://scikit-learn.org/stable/index.html
 [knn-algorithm-wiki]:
 https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm
 [KL-divergence-wiki]:
