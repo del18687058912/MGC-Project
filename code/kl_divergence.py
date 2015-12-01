@@ -1,8 +1,7 @@
 import numpy as np
 import math
 
-def _calculate_KL_divergence_unsym(features_1, features_2 ):
-	
+def _calculate_KL_divergence_unsym(features_1, features_2):
 	mean_1 = features_1[0]
 	mean_2 = features_2[0]
 
