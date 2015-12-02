@@ -2,7 +2,6 @@ import numpy as np
 import math
 
 def _calculate_KL_divergence_unsym(features_1, features_2):
-
 	mean_1 = features_1[0]
 	mean_2 = features_2[0]
 
@@ -21,5 +20,16 @@ def _calculate_KL_divergence_unsym(features_1, features_2):
 	KL_divergence = 0.5*(trace_of_mult + mult - dimension + log_of_det_div)
 	return KL_divergence;
 
-def calculate_KL_divergence(features_1,features_2):
-	return _calculate_KL_divergence_unsym(features_1,features_2) + _calculate_KL_divergence_unsym(features_2,features_1)
+def _listToCortege(features, n_features):
+	mean = features[0:n_features]
+	covariance = features[n_features:].reshape(n_features, n_features)
+	cortege_features = (mean, covariance)
+	return cortege_features
+
+def calculate_KL_divergence(features_1,features_2, **kwargs):
+	n_features = kwargs["n_features"]
+
+	f1 = _listToCortege(features_1,n_features)
+	f2 = _listToCortege(features_2,n_features)
+
+	return _calculate_KL_divergence_unsym(f1,f2) + _calculate_KL_divergence_unsym(f2,f1)
