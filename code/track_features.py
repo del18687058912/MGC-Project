@@ -52,7 +52,6 @@ def get_track_features(track_name):
 
 def get_features(dir_path, max_track_number, *genre_names): 
     features = []   
-    print(max_track_number)
     for genre_name in genre_names:
         genre_dir_path = dir_path + "/" + genre_name +"/"
         track_list = os.listdir(genre_dir_path)
@@ -90,13 +89,10 @@ def get_genre_name(genre_ID):
     return genre_name
 
 def list_to_cortege(features, n_features):
-    print (features ,n_features)
     mean = features[0:n_features]
     covariance = features[n_features:].reshape(n_features, n_features)
     cortege_features = (mean, covariance)
     return cortege_features
 
 def cortege_to_list(features, n_features):
-    features_array = []
-    features_array[len(features_array):] = [np.concatenate([features[0], np.array(features[1]).ravel()])]
-    return features_array
+    return np.concatenate([features[0], np.array(features[1]).ravel()]).tolist()
