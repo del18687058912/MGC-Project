@@ -96,3 +96,27 @@ def list_to_cortege(features, n_features):
 
 def cortege_to_list(features, n_features):
     return np.concatenate([features[0], np.array(features[1]).ravel()]).tolist()
+
+def read_features_from_files(dir_path, *genre_names):
+    features_cortege_list = []
+    for genre_name in genre_names: 
+        features_file = open(dir_path + "/" + genre_name + ".txt", "r")
+
+        n_features = int(features_file.readline())
+
+        for line in features_file:
+            features_list = map(float, line[1:len(line) - 2].split(", "))
+            (mean, cov_mat) = list_to_cortege(np.array(features_list), n_features)
+            features_cortege_list.append((mean, cov_mat, genre_name))
+
+        features_file.close()
+
+    return features_cortege_list
+
+def write_features_to_file(dir_path, genre_name, features_cortege_list):
+    features_file = open(dir_path + "/" + genre_name + ".txt", "w")
+    features_file.write(str(len(features_cortege_list[0][0])) + "\n")
+    for features_cortege in features_cortege_list:
+        features_file.write(str(cortege_to_list(features_cortege)) + "\n")
+
+    features_file.close()
