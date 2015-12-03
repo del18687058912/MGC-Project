@@ -2,6 +2,7 @@ import os
 from features import mfcc
 from features import logfbank
 import scipy.io.wavfile as wav
+import numpy as np
 
 def _get_covariance_matrix(mfcc_feat):
     num_segments = len(mfcc_feat)
@@ -56,7 +57,7 @@ def get_features(dir_path, max_track_number, *genre_names):
         genre_dir_path = dir_path + "/" + genre_name +"/"
         track_list = os.listdir(genre_dir_path)
         track_list = track_list[:int(max_track_number)]
-        
+
         for index in range(len(track_list)):
             track_list[index] = genre_dir_path + track_list[index]
 
@@ -71,7 +72,7 @@ def get_genre_ID(genre_name):
     track_ID = ""
     for ch in genre_name:
         char_ID = str(ord(ch))
-        if int(char_ID) < 100:
+        if int(char_ID) < int(100):
             char_ID = "0"+char_ID
         track_ID += char_ID
 
@@ -79,6 +80,8 @@ def get_genre_ID(genre_name):
 
 def get_genre_name(genre_ID):
     genre_ID_list = list(str(genre_ID))
+    if len(genre_ID_list) % 3 != 0:
+        genre_ID_list = ["0"] + genre_ID_list
     genre_name = ""
     i = 0
     while (i < len(genre_ID_list)):
@@ -91,8 +94,7 @@ def get_genre_name(genre_ID):
 def list_to_cortege(features, n_features):
     mean = features[0:n_features]
     covariance = features[n_features:].reshape(n_features, n_features)
-    cortege_features = (mean, covariance)
-    return cortege_features
+    return (mean, covariance)
 
 def cortege_to_list(features, n_features):
     return np.concatenate([features[0], np.array(features[1]).ravel()]).tolist()
