@@ -20,10 +20,10 @@ def knn_classification():
 		training_array[len(training_array):] = [tf.cortege_to_list(track_features)]
 		training_classes[len(training_classes):] = [tf.get_genre_ID(str(track_features[2]))]
 
-	knn_classifier = neighbors.KNeighborsClassifier( weights='uniform', algorithm='ball_tree', 
+	knn_classifier = neighbors.KNeighborsClassifier(n_neighbors=3, weights='distance', algorithm='ball_tree',
 										metric=kl.calculate_KL_divergence, metric_params={"n_features": n_features})
 	knn_classifier.fit(training_array,training_classes)
-	
+
 	print "Read testing data"
 	testing_set_features = tf.read_features_from_files("../../music/testing", "rock", "pop", "class", "jazz")
 	testing_array = []
