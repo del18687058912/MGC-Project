@@ -96,7 +96,7 @@ def list_to_cortege(features, n_features):
     covariance = features[n_features:].reshape(n_features, n_features)
     return (mean, covariance)
 
-def cortege_to_list(features, n_features):
+def cortege_to_list(features):
     return np.concatenate([features[0], np.array(features[1]).ravel()]).tolist()
 
 def read_features_from_files(dir_path, *genre_names):

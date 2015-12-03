@@ -10,27 +10,28 @@ def knn_classification():
 	training_array = []
 	training_classes = []
 
-	training_set_features = tf.get_features("../../music/training", training_samples_count, "rock" , "pop", "class", "jazz")
+	training_set_features = tf.read_features_from_files("../../music/training", "rock" , "pop", "class", "jazz")
 
 	# get features count
 	n_features = len(training_set_features[0][0])
 
 	# convert each cortege to array
 	for track_features in training_set_features:
-		training_array[len(training_array):] = [tf.cortege_to_list(track_features, n_features)]
+		training_array[len(training_array):] = [tf.cortege_to_list(track_features)]
 		training_classes[len(training_classes):] = [tf.get_genre_ID(str(track_features[2]))]
 
 	knn_classifier = neighbors.KNeighborsClassifier( weights='uniform', algorithm='ball_tree', 
 										metric=kl.calculate_KL_divergence, metric_params={"n_features": n_features})
 	knn_classifier.fit(training_array,training_classes)
+	
 	print "Read testing data"
-	testing_set_features = tf.get_features("../../music/testing", testing_samples_count, "rock", "pop", "class", "jazz")
+	testing_set_features = tf.read_features_from_files("../../music/testing", "rock", "pop", "class", "jazz")
 	testing_array = []
 	expected_genres = []
 
 	# convert each cortege to array
 	for track_features in testing_set_features:
-		testing_array[len(testing_array):] = [tf.cortege_to_list(track_features, n_features)]
+		testing_array[len(testing_array):] = [tf.cortege_to_list(track_features)]
 		expected_genres[len(expected_genres):] = [track_features[2]]
 
 	#print testing_array
