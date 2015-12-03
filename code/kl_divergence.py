@@ -1,5 +1,8 @@
 import numpy as np
+import track_features as tf
 import math
+from sklearn.neighbors.dist_metrics import DistanceMetric
+from sklearn.metrics.pairwise import euclidean_distances
 
 def _calculate_KL_divergence_unsym(features_1, features_2):
 	mean_1 = features_1[0]
@@ -20,16 +23,10 @@ def _calculate_KL_divergence_unsym(features_1, features_2):
 	KL_divergence = 0.5*(trace_of_mult + mult - dimension + log_of_det_div)
 	return KL_divergence;
 
-def _listToCortege(features, n_features):
-	mean = features[0:n_features]
-	covariance = features[n_features:].reshape(n_features, n_features)
-	cortege_features = (mean, covariance)
-	return cortege_features
-
 def calculate_KL_divergence(features_1,features_2, **kwargs):
 	n_features = kwargs["n_features"]
-
-	f1 = _listToCortege(features_1,n_features)
-	f2 = _listToCortege(features_2,n_features)
-
+	if (len(features_1) < n_features*(n_features+1)):
+		return np.linalg.norm(features_1 - features_2)
+	f1 = tf.list_to_cortege(features_1,n_features)
+	f2 = tf.list_to_cortege(features_2,n_features)
 	return _calculate_KL_divergence_unsym(f1,f2) + _calculate_KL_divergence_unsym(f2,f1)
