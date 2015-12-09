@@ -99,7 +99,7 @@ def list_to_cortege(features, n_features):
 def cortege_to_list(features):
     return np.concatenate([features[0], np.array(features[1]).ravel()]).tolist()
 
-def read_features_from_files(dir_path, *genre_names):
+def read_features_from_files(dir_path, genre_names):
     features_cortege_list = []
     for genre_name in genre_names: 
         features_file = open(dir_path + "/" + genre_name + ".txt", "r")
