@@ -4,14 +4,14 @@ import track_features as tf
 import routine as rt
 from sklearn import neighbors
 
-def knn_classification(genres):
+def knn_classification(genres, features_type):
 	training_samples_count = 70
 	testing_samples_count = 30
 	print "Read training data"
 	training_array = []
 	training_classes = []
 
-	training_set_features = tf.read_features_from_files("../../music/training", genres)
+	training_set_features = tf.read_features_from_files("../../music/training", genres, features_type)
 
 	# get features count
 	n_features = len(training_set_features[0][0])
@@ -23,7 +23,7 @@ def knn_classification(genres):
 
 
 	print "Read testing data"
-	testing_set_features = tf.read_features_from_files("../../music/testing", genres)
+	testing_set_features = tf.read_features_from_files("../../music/testing", genres, features_type)
 	testing_array = []
 	expected_genres = []
 
@@ -40,4 +40,4 @@ def knn_classification(genres):
 			result_of_classification = knn_classifier.predict(testing_array)
 			result = []
 			params_string = "weight: " + str(weight) + " n_neighbors: " + str(n_neighbors)
-			rt.print_accuracy(expected_genres, result_of_classification, genres, params_string)
+			rt.print_accuracy(expected_genres, result_of_classification, genres, features_type, params_string)
