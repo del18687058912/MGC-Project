@@ -35,4 +35,4 @@ def svm_classification(genres, features_type):
 
 	rt.print_accuracy(list(testing_class), list(result_class), genres, features_type, "svm")
 	rt.write_accuracy_to_file("../../music/", list(testing_class), list(result_class), genres, features_type, "svm")
-	
+
