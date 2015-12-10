@@ -7,7 +7,6 @@ from sklearn import neighbors
 def knn_classification(genres, features_type):
 	training_samples_count = 70
 	testing_samples_count = 30
-	print "Read training data"
 	training_array = []
 	training_classes = []
 
@@ -21,8 +20,6 @@ def knn_classification(genres, features_type):
 		training_array[len(training_array):] = [tf.cortege_to_list(track_features)]
 		training_classes[len(training_classes):] = [tf.get_genre_ID(str(track_features[2]))]
 
-
-	print "Read testing data"
 	testing_set_features = tf.read_features_from_files("../../music/testing", genres, features_type)
 	testing_array = []
 	expected_genres = []
@@ -39,5 +36,7 @@ def knn_classification(genres, features_type):
 			knn_classifier.fit(training_array,training_classes)
 			result_of_classification = knn_classifier.predict(testing_array)
 			result = []
+
 			params_string = "weight: " + str(weight) + " n_neighbors: " + str(n_neighbors)
-			rt.print_accuracy(expected_genres, result_of_classification, genres, features_type, params_string)
+			rt.print_accuracy(expected_genres, result_of_classification, genres, features_type, "knn", params_string)
+			rt.write_accuracy_to_file("../../music/", expected_genres, result_of_classification, genres, features_type, "knn", params_string)

@@ -33,5 +33,5 @@ def svm_classification(genres, features_type):
 	clf = OneVsOneClassifier(SVC(kernel='linear'))
 	result_class = np.array(clf.fit(training_data, training_class).predict(testing_data))
 
-	rt.print_accuracy(list(testing_class), list(result_class), genres, features_type)
-	
+	rt.print_accuracy(list(testing_class), list(result_class), genres, features_type, "svm")
+	rt.write_accuracy_to_file("../../music/", list(testing_class), list(result_class), genres, features_type, "svm")
