@@ -1,6 +1,7 @@
+import os
 import track_features as tf
 
-def print_accuracy(expected_class, actual_class, genres, features_type, *extra_string):
+def get_accuracy(expected_class, actual_class, genres, features_type, *extra_strings):
 	genres_correct = [0 for i in range(len(genres))]
 	genres_total = [expected_class.count(tf.get_genre_ID(genres[i])) for i in range(len(genres))]
 
@@ -10,15 +11,26 @@ def print_accuracy(expected_class, actual_class, genres, features_type, *extra_s
 			pos = genres.index(tf.get_genre_name(expected_class[i]))
 			genres_correct[pos] += 1
 			genres_correct_total += 1
-
-	print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
-	print features_type
-	print genres
-	for string in extra_string:
+	extra_string = ""
+	for string in extra_strings:
 		if len(string) != 0:
-			print string
-	print "Accuracy:"
+			extra_string += str(string) + "\n"
+	result = ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> \n" + \
+	str(features_type) + "\n" + \
+	str(genres) + "\n" + \
+	str(extra_string) + \
+	"Accuracy: \n"
 	for i in range(len(genres)):
-		print genres[i] + ":", genres_correct[i], float(genres_correct[i]) / float(genres_total[i])
-	print "average:" , float(genres_correct_total) / float(len(actual_class))
-	print "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
+		result += str(genres[i]) + ": " + str(genres_correct[i]) + " " + str(float(genres_correct[i]) / float(genres_total[i])) + "\n"
+	result += "average: " + str(float(genres_correct_total) / float(len(actual_class))) + "\n" + \
+	"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< \n"
+	return result
+
+def print_accuracy(expected_class, actual_class, genres, features_type, *extra_strings):
+	print get_accuracy(expected_class, actual_class,genres,features_type, *extra_strings)
+
+def write_accuracy_to_file(dir_path, expected_class, actual_class, genres, features_type, *extra_strings):
+	result = get_accuracy(expected_class, actual_class,genres,features_type, *extra_strings)
+	result_file = open(dir_path + "/result.txt", "a")
+	result_file.write(result)
+	result_file.close()
