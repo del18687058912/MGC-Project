@@ -5,9 +5,9 @@ import numpy as np
 import track_features as tf
 import routine as rt
 
-def svm_classification(genres):
-	training_set_features = tf.read_features_from_files("../../music/training", genres)
-	testing_set_features = tf.read_features_from_files("../../music/testing", genres)
+def svm_classification(genres, features_type):
+	training_set_features = tf.read_features_from_files("../../music/training", genres, features_type)
+	testing_set_features = tf.read_features_from_files("../../music/testing", genres, features_type)
 
 	X = []
 	y = []
@@ -33,5 +33,5 @@ def svm_classification(genres):
 	clf = OneVsOneClassifier(SVC(kernel='linear'))
 	result_class = np.array(clf.fit(training_data, training_class).predict(testing_data))
 
-	rt.print_accuracy(list(testing_class), list(result_class), genres)
+	rt.print_accuracy(list(testing_class), list(result_class), genres, features_type)
 	
