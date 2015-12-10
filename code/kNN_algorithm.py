@@ -1,16 +1,17 @@
 import numpy as np
 import kl_divergence as kl
 import track_features as tf
+import routine as rt
 from sklearn import neighbors
 
-def knn_classification():
+def knn_classification(genres):
 	training_samples_count = 70
 	testing_samples_count = 30
 	print "Read training data"
 	training_array = []
 	training_classes = []
 
-	training_set_features = tf.read_features_from_files("../../music/training", "rock" , "pop", "class", "jazz")
+	training_set_features = tf.read_features_from_files("../../music/training", genres)
 
 	# get features count
 	n_features = len(training_set_features[0][0])
@@ -20,52 +21,23 @@ def knn_classification():
 		training_array[len(training_array):] = [tf.cortege_to_list(track_features)]
 		training_classes[len(training_classes):] = [tf.get_genre_ID(str(track_features[2]))]
 
-	knn_classifier = neighbors.KNeighborsClassifier(n_neighbors=3, weights='distance', algorithm='ball_tree',
-										metric=kl.calculate_KL_divergence, metric_params={"n_features": n_features})
-	knn_classifier.fit(training_array,training_classes)
 
 	print "Read testing data"
-	testing_set_features = tf.read_features_from_files("../../music/testing", "rock", "pop", "class", "jazz")
+	testing_set_features = tf.read_features_from_files("../../music/testing", genres)
 	testing_array = []
 	expected_genres = []
 
 	# convert each cortege to array
 	for track_features in testing_set_features:
 		testing_array[len(testing_array):] = [tf.cortege_to_list(track_features)]
-		expected_genres[len(expected_genres):] = [track_features[2]]
+		expected_genres[len(expected_genres):] = [tf.get_genre_ID(str(track_features[2]))]
 
-	#print testing_array
-	result_of_classification = knn_classifier.predict(testing_array)
-
-	result = []
-	for result_class in result_of_classification:
-		result[len(result):] = [tf.get_genre_name(result_class)]
-	print "Expected: ", expected_genres
-	print "Result: ", result
-	
-	rock_count = 0
-	pop_count = 0
-	class_count = 0
-	jazz_count = 0
-	for i in range(len(expected_genres)):
-		if (expected_genres[i] == result[i]):
-			if expected_genres[i] == "rock":
-				rock_count+=1
-			elif expected_genres[i] == "pop":
-				pop_count+=1
-			elif expected_genres[i] == "class":
-				class_count+=1
-			elif expected_genres[i] =="jazz":
-				jazz_count+=1
-
-	rock_probability = float(rock_count) / int(testing_samples_count)
-	pop_probability = float(pop_count) / int(testing_samples_count)
-	class_probabolity = float(class_count) / int(testing_samples_count)
-	jazz_probability = float(jazz_count) / int(testing_samples_count)
-
-	print "rock:  ", rock_count, rock_probability
-	print "pop:   ", pop_count, pop_probability
-	print "class: ", class_count, class_probabolity
-	print "jazz:  ", jazz_count, jazz_probability 
-
-knn_classification()
+	for weight in ['distance', 'uniform']: 
+		for n_neighbors in range(3,6):
+			knn_classifier = neighbors.KNeighborsClassifier(n_neighbors=n_neighbors, weights=weight, algorithm='ball_tree',
+											metric=kl.calculate_KL_divergence, metric_params={"n_features": n_features})
+			knn_classifier.fit(training_array,training_classes)
+			result_of_classification = knn_classifier.predict(testing_array)
+			result = []
+			params_string = "weight: " + str(weight) + " n_neighbors: " + str(n_neighbors)
+			rt.print_accuracy(expected_genres, result_of_classification, genres, params_string)
