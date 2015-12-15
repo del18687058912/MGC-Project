@@ -16,22 +16,22 @@ Parameters
 		Features used to classify genres:
 
 		- 'fbank': Filter bank features (n_features=26)
-		- 'mfcc': Mel Frequency Cepstral Coefficient (n_features=13)
+		- 'mfcc': Mel Frequency Cepstral Coefficients (n_features=13)
 
 	weight : {'distance', 'uniform'}, optional (default='distance')
 		Weight function used in prediction.
 
-        - 'uniform' : uniform weights.  All points in each neighborhood
+        - 'uniform' : uniform weights. All points in each neighborhood
           are weighted equally.
         - 'distance' : weight points by the inverse of their distance.
           in this case, closer neighbors of a query point will have a
           greater influence than neighbors which are further away.
 
     n_neighbors_min : int, optional (default=3)
-    	Minimum number of neighbors for which classification will be run
+    	Minimum number of neighbors for which classification will be run.
 
-    n_neighbors_max : in, optional (default=5)
-    	Maximum number of neighbors for which classification will be run
+    n_neighbors_max : int, optional (default=5)
+    	Maximum number of neighbors for which classification will be run.
 '''
 def knn_classification(genres, features_type='mfcc', weight='distance', n_neighbors_min=3, n_neighbors_max=5):
 	training_array = []
