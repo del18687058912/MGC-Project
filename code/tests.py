@@ -3,11 +3,11 @@ import svc as svc
 import kNN_algorithm as knn
 from itertools import combinations
 
-def run_tests(algorithm, classes_count, features_type):
+def run_tests(algorithm, classes_count, features_type, **kwargs):
 	genres_list = ["blues", "class", "disco", "hiphop", "jazz", "metal", "pop", "reggae", "rock"]
 	genres_combinations = [list(x) for x in combinations(genres_list, classes_count)]
 	for genres in genres_combinations:
-		algorithm(genres, features_type)
+		algorithm(genres, features_type, **kwargs)
 
 result_path = "../../music/result.txt"
 if (os.path.isfile(result_path)):
